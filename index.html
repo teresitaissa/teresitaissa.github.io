@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teresita M. Issa - Education Policy Research</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #4a4a4a;
+            --accent: #8b6914;
+            --bg: #fafaf8;
+            --card-bg: #ffffff;
+            --border: #e8e6e1;
+            --hover: #f5f3ed;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 248, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            letter-spacing: -0.03em;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-content .bio {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.7;
+        }
+
+        .hero-image {
+            display: flex;
+            align-items: start;
+            justify-content: center;
+        }
+
+        .profile-img {
+            width: 280px;
+            height: 340px;
+            background: linear-gradient(135deg, #f0ede6 0%, #e8e6e1 100%);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 5rem;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.3s; }
+        section:nth-child(3) { animation-delay: 0.4s; }
+        section:nth-child(4) { animation-delay: 0.5s; }
+
+        .section-header {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* Research Interests */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .interest-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .interest-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            border-color: var(--accent);
+        }
+
+        .interest-card h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .interest-card p {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Publications */
+        .publication {
+            background: var(--card-bg);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .publication:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        .publication-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .publication-authors {
+            font-size: 0.95rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-venue {
+            font-style: italic;
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .publication-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--hover);
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Teaching */
+        .course {
+            background: var(--card-bg);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .course:hover {
+            border-left-color: var(--accent);
+            background: var(--hover);
+        }
+
+        .course-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-details {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* CV Section */
+        .cv-download {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+
+        .cv-download:hover {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .cv-highlights {
+            margin-top: 3rem;
+        }
+
+        .cv-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .cv-section h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .cv-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .cv-item-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .cv-item-details {
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: 4rem auto 2rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .profile-img {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [activeSection, setActiveSection] = useState('about');
+
+            const scrollToSection = (sectionId) => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const offset = 100;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    setActiveSection(sectionId);
+                }
+            };
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    const sections = ['about', 'research', 'publications', 'teaching', 'cv'];
+                    const scrollPosition = window.scrollY + 150;
+
+                    for (const section of sections) {
+                        const element = document.getElementById(section);
+                        if (element) {
+                            const { offsetTop, offsetHeight } = element;
+                            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                                setActiveSection(section);
+                                break;
+                            }
+                        }
+                    }
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <>
+                    <nav>
+                        <div className="nav-container">
+                            <div className="logo">Teresita M. Issa</div>
+                            <ul className="nav-links">
+                                <li><a 
+                                    href="#about" 
+                                    className={activeSection === 'about' ? 'active' : ''}
+                                    onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}
+                                >About</a></li>
+                                <li><a 
+                                    href="#research" 
+                                    className={activeSection === 'research' ? 'active' : ''}
+                                    onClick={(e) => { e.preventDefault(); scrollToSection('research'); }}
+                                >Research</a></li>
+                                <li><a 
+                                    href="#publications" 
+                                    className={activeSection === 'publications' ? 'active' : ''}
+                                    onClick={(e) => { e.preventDefault(); scrollToSection('publications'); }}
+                                >Publications</a></li>
+                                <li><a 
+                                    href="#teaching" 
+                                    className={activeSection === 'teaching' ? 'active' : ''}
+                                    onClick={(e) => { e.preventDefault(); scrollToSection('teaching'); }}
+                                >Teaching</a></li>
+                                <li><a 
+                                    href="#cv" 
+                                    className={activeSection === 'cv' ? 'active' : ''}
+                                    onClick={(e) => { e.preventDefault(); scrollToSection('cv'); }}
+                                >CV</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <main>
+                        <section id="about" className="hero">
+                            <div className="hero-content">
+                                <h1>Teresita M. Issa</h1>
+                                <p className="subtitle">Ph.D. Candidate, School Organization & Education Policy<br/>University of California, Davis</p>
+                                <p className="bio">
+                                    I am a Ph.D. candidate in the School Organization and Education Policy program with a Designated Emphasis in Computational Social Science at UC Davis. As a Graduate Student Researcher with the California Education Lab and Wheelhouse: The Center for Community College Leadership and Research, I use quasi-experimental methods and large-scale administrative data to investigate education policy and finance.
+                                </p>
+                                <p className="bio">
+                                    My research focuses on interrogating structures and systems in local and state governments that result in persistent underinvestment in marginalized communities, particularly examining how emergency relief funding and fiscal policies affect student outcomes in California's community colleges. I use regression discontinuity design and difference-in-differences approaches to estimate causal impacts of policy interventions on college persistence and success.
+                                </p>
+                                <p className="bio">
+                                    I hold an M.A. in Economics and Education from Columbia University and a B.A. in Economics from UCLA. Prior to my doctoral studies, I worked at the Community College Research Center evaluating California's budget preparation process and served as an executive fellow at the California Student Aid Commission.
+                                </p>
+                                <div className="contact-info">
+                                    <span>✉️ <a href="mailto:tdemartinez@ucdavis.edu">tdemartinez@ucdavis.edu</a></span>
+                                    <span>📱 (408) 204-9284</span>
+                                    <span>📍 San Francisco, CA</span>
+                                    <span>🔗 <a href="https://linkedin.com/in/teresitamartinez" target="_blank">LinkedIn</a></span>
+                                </div>
+                            </div>
+                            <div className="hero-image">
+                                <div className="profile-img">
+                                    Professional photo placeholder
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="research">
+                            <h2 className="section-header">Research Interests</h2>
+                            <div className="interests-grid">
+                                <div className="interest-card">
+                                    <h3>Education Finance & Policy</h3>
+                                    <p>
+                                        Examining state and local fiscal policies that perpetuate underinvestment in community colleges and marginalized communities. Investigating budget preparation processes and revenue allocation systems that disadvantage institutions serving predominantly minoritized student populations.
+                                    </p>
+                                </div>
+                                <div className="interest-card">
+                                    <h3>Emergency Relief & Student Success</h3>
+                                    <p>
+                                        Using regression discontinuity and quasi-experimental methods to estimate the causal impact of federal Higher Education Emergency Relief Fund (HEERF) grants on community college student outcomes including persistence, completion, and transfer.
+                                    </p>
+                                </div>
+                                <div className="interest-card">
+                                    <h3>Computational Social Science</h3>
+                                    <p>
+                                        Applying computational methods and large-scale administrative data analysis to education policy questions. Leveraging student-level data covering millions of California community college students to understand policy impacts and implementation.
+                                    </p>
+                                </div>
+                                <div className="interest-card">
+                                    <h3>Financial Aid & Equity</h3>
+                                    <p>
+                                        Analyzing financial aid policies and systems to identify barriers facing undocumented students and other marginalized populations. Evaluating system-level and campus-level policies to inform equitable financial aid design.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="publications">
+                            <h2 className="section-header">Publications & Working Papers</h2>
+                            
+                            <div className="publication">
+                                <span className="publication-status">Manuscript in Preparation</span>
+                                <h3 className="publication-title">
+                                    Federal Emergency Relief Grants and Community College Student Success: Evidence from Aid Eligibility Cutoffs
+                                </h3>
+                                <p className="publication-authors">
+                                    Scott Carrell, Teresita M. Issa, Michal Kurlaender, Rachel Linden, & Paco Martorell
+                                </p>
+                                <p className="publication-venue">
+                                    School of Education, UC Davis, 2025
+                                </p>
+                            </div>
+
+                            <div className="publication">
+                                <span className="publication-status">Manuscript in Preparation</span>
+                                <h3 className="publication-title">
+                                    Implementation of Federal Emergency Relief Aid: Evidence from Student-Level Data
+                                </h3>
+                                <p className="publication-authors">
+                                    Teresita M. Issa & Paco Martorell
+                                </p>
+                                <p className="publication-venue">
+                                    School of Education, UC Davis, 2025
+                                </p>
+                            </div>
+
+                            <div className="publication">
+                                <h3 className="publication-title">
+                                    College Affordability in Every Corner of California: Perspectives from the 2019 PACE/USC Rossier Poll
+                                </h3>
+                                <p className="publication-authors">
+                                    Cecilia Rios-Aguilar, Michal Kurlaender, Amanda Lyke, & Teresita Martinez
+                                </p>
+                                <p className="publication-venue">
+                                    Policy Analysis for California Education (PACE), 2019
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="teaching">
+                            <h2 className="section-header">Teaching Experience</h2>
+                            
+                            <div className="course">
+                                <h3 className="course-title">EDU 120 – Philosophical & Social Foundations of Education</h3>
+                                <p className="course-details">
+                                    Teaching Assistant to Prof. Heather Rose • Winter 2026 • UC Davis School of Education
+                                </p>
+                            </div>
+
+                            <div className="course">
+                                <h3 className="course-title">EDU 229 – Education Finance Policy</h3>
+                                <p className="course-details">
+                                    Guest Lecturer • 2025 • UC Davis School of Education
+                                </p>
+                                <p style={{marginTop: '0.75rem', color: 'var(--secondary)', fontSize: '0.95rem'}}>
+                                    Delivered lecture on "Revenue Equalization Models in a Racialized Funding Structure," examining how state finance formulas perpetuate educational inequities.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section id="cv">
+                            <h2 className="section-header">Curriculum Vitae</h2>
+                            <a href="#" className="cv-download">Download Full CV (PDF)</a>
+
+                            <div className="cv-highlights">
+                                <div className="cv-section">
+                                    <h3>Education</h3>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Ph.D. in School Organization & Education Policy</div>
+                                        <div className="cv-item-details">University of California, Davis, Expected 2027</div>
+                                        <div className="cv-item-details">Designated Emphasis in Computational Social Science</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">M.A. in Economics and Education</div>
+                                        <div className="cv-item-details">Columbia University, Teachers College, 2022</div>
+                                        <div className="cv-item-details">Concentration in Education Policy</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">B.A. in Economics</div>
+                                        <div className="cv-item-details">University of California, Los Angeles, 2019</div>
+                                        <div className="cv-item-details">Minor in Education</div>
+                                    </div>
+                                </div>
+
+                                <div className="cv-section">
+                                    <h3>Research Experience</h3>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Graduate Student Researcher</div>
+                                        <div className="cv-item-details">Wheelhouse: The Center for Community College Leadership and Research, UC Davis, 2022 – 2026</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Graduate Student Researcher</div>
+                                        <div className="cv-item-details">California Education Lab, UC Davis, 2022 – 2026</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Graduate Research Assistant</div>
+                                        <div className="cv-item-details">Community College Research Center, Teachers College, Columbia University, 2020 – 2022</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Undergraduate Research Assistant</div>
+                                        <div className="cv-item-details">Policy Analysis for California Education (PACE), UCLA, 2018 – 2019</div>
+                                    </div>
+                                </div>
+
+                                <div className="cv-section">
+                                    <h3>Fellowships & Grants</h3>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Graduate Program Fellowship</div>
+                                        <div className="cv-item-details">Graduate Group of Education, UC Davis, Winter 2024 & 2025</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Equity & Inclusion Student Fellowship</div>
+                                        <div className="cv-item-details">Association for Public Policy Analysis and Management (APPAM), 2024</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Wheelhouse Summer Scholars Fellowship</div>
+                                        <div className="cv-item-details">The Center for Community College Leadership and Research, UC Davis, 2024</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Data Science for Social Justice</div>
+                                        <div className="cv-item-details">D-Lab, UC Berkeley, 2023</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Pre-doctoral Diversity Fellowship</div>
+                                        <div className="cv-item-details">Association for Education Finance & Policy (AEFP), 2022</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Postsecondary Education Fellow</div>
+                                        <div className="cv-item-details">HCM Strategists, 2021</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">California Student Aid Commission Executive Fellow</div>
+                                        <div className="cv-item-details">Center for California Studies Capital Fellows Program, Sacramento State, 2020</div>
+                                    </div>
+                                </div>
+
+                                <div className="cv-section">
+                                    <h3>Conference Presentations</h3>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Federal Emergency Relief Grants and Community College Student Success: Evidence from Aid Eligibility Cutoffs</div>
+                                        <div className="cv-item-details">Association for Education Finance and Policy 51st Annual Conference, Chicago, IL, 2026</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Effects of Educational Revenue Augmentation Fund (ERAF) on Local Government Services</div>
+                                        <div className="cv-item-details">UC Davis Center for Poverty and Inequality Research Graduate Student Retreat, 2025</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Impact of Federal HEER Aid on California Community College Student Persistence</div>
+                                        <div className="cv-item-details">Association for Education Finance and Policy 50th Annual Conference, Washington D.C., 2025</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-title">Impact of Federal HEER Aid on California Community College Student Success</div>
+                                        <div className="cv-item-details">Association for Public Policy Analysis and Management Fall Research Conference, National Harbor, MD, 2024</div>
+                                    </div>
+                                </div>
+
+                                <div className="cv-section">
+                                    <h3>Professional Affiliations</h3>
+                                    <div className="cv-item">
+                                        <div className="cv-item-details">American Education Research Association (AERA)</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-details">Association for Education Finance and Policy (AEFP)</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-details">Association for Public Policy Analysis and Management (APPAM)</div>
+                                    </div>
+                                    <div className="cv-item">
+                                        <div className="cv-item-details">Society for Research on Educational Effectiveness (SREE)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+
+                    <footer>
+                        <p>© 2024 Teresita M. Issa. All rights reserved.</p>
+                        <p>Last updated: December 2024</p>
+                    </footer>
+                </>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
